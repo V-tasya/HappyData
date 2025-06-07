@@ -1,0 +1,19 @@
+<div class="section">
+        <h1 class="steps-text">First Step</h1>
+        <p class="comment1">Choose the csv file that you want to analyze: </p>
+        <form action="{% url 'upload:process_csv' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="file-selection">
+                <label for="fileInput" class="input-button">Choose File</label>
+                <input type="file" name="csv_file" id="fileInput" class="d-none" onchange="updateFileName()">
+                <span id="fileName" class="comment-file">No file chosen</span>
+                <button type="submit" class="submit-button">Process</button>
+            </div>
+        </form>
+
+        {% if message %}
+            <div class="alert {{ alert_class }}">
+                {{ message }}
+            </div>
+        {% endif %}
+    </div>
