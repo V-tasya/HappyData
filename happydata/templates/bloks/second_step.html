@@ -6,7 +6,7 @@
 
   <div style="display: grid; grid-template-columns: repeat(2, 1fr);">
     <div class="left-panel">
-      <form class="left-part" method="post">
+      <form action="{% url 'calculate:calculate_data' %}" class="left-part" method="post">
           {% csrf_token %}
           <p class="comment2">File name:</p>
           <input type="text" id="fileNameInput" value="{{ file_name_inp }}">
@@ -21,6 +21,8 @@
           <p class="comment2">Number of missing values:</p>
           <input type="text" id="NumberOfMissingValues" value="{{ number_of_miss_val }}">
           <button type="submit" class="fill-button">Fill the fields</button>
+          <p class="comment2">Message:</p>
+          <input type="text" id="Message1" value="{{ mess1 }}">
       </form>
     </div>
 
@@ -39,6 +41,8 @@
         <input type="text" id="MeanVal" value="{{ mean_val }}">
         <input type="text" id="AverageVal" value="{{ av_val }}">
         <input type="text" id="StandardDwviation" value="{{ std_val }}">
+        <p class="comment2">Message:</p>
+        <input type="text" id="Message2" value="{{ mess2 }}">
       </form>
     </div>
   </div>

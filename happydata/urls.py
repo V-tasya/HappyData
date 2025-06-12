@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('interface.urls')),
     path('upload/', include('uploading_and_processing_file.urls', namespace='upload')),
+    path('calculate/', include('calculating_data.urls'), namespace='calculate'),
     path('admin/', admin.site.urls),
 ]
 
