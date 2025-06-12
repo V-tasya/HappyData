@@ -36,13 +36,16 @@ def process_csv(request):
               existing_file.file.delete(save=False)
               existing_file.file = uploaded_file
               existing_file.save()
-              message = "Existing file replaced successfully."
+              request.session['uploaded_file_id'] = existing_file.id
+              message = "Existing file replaced successfully. Now you can move on to the next step."
               alert_class = "success"
             else:
               new_file = UploadedFile(file=uploaded_file)
               new_file.save()
-              message = "File uploaded and saved successfully."
+              request.session['uploaded_file_id'] = new_file.id
+              message = "File uploaded and saved successfully. Now you can move on to the next step."
               alert_class = "success"
+
           except Exception as exception:
             alert_class = 'danger'
             message = 'Error occurred during processing csv file: ', str(exception)

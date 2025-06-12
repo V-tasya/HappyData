@@ -98,3 +98,90 @@
   font-style: italic;
   color: rgb(9, 210, 9);
 }
+
+.section1 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.left-panel {
+  flex: 1;
+  padding-right: 2em;
+  border-right: 1px solid #b0afaf; 
+}
+
+.right-panel {
+  flex: 1;
+  margin-left: 65px;
+  margin-right: 25px;
+}
+
+.left-part {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+
+.right-part {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+}
+
+.comment2 {
+  font-family: 'Verdana', sans-serif;
+  font-size: 16px;
+  font-weight: 100;
+  font-style: italic;
+  transform: skewX(-10deg);
+  color: rgb(134, 134, 134);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#fileNameInput,
+#NumberOfColumnsInput,
+#NumberOfRowsInput,
+#NumberOfNumericalValues,
+#NumberOfMissingValues,
+#NumberOfCategorialValues,
+#MeanVal,
+#AverageVal,
+#StandardDwviation {
+  width: 150px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.fill-button {
+  width: 130px;
+  height: 40px;
+  border-radius: 0.5em;
+  border: none;
+  box-shadow: white 0px 0px 2px 2px;
+  border: 1px solid white;
+  transition: 0.1s all ease-in-out;
+  &:hover {
+    background-color: rgb(37, 205, 37);
+    scale: 1.03;
+  }
+  color: white;
+  background-color: rgb(13, 188, 13);
+}
+
+.custom-select {
+  padding: 0.4em 0.8em;
+  border-radius: 0.5em;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: 'Verdana', sans-serif;
+}

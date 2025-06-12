@@ -1,0 +1,45 @@
+{% load static %}
+<div class="section1">
+  <div class="full-width">
+  <p class="steps-text">Second Step</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr);">
+    <div class="left-panel">
+      <form class="left-part" method="post">
+          {% csrf_token %}
+          <p class="comment2">File name:</p>
+          <input type="text" id="fileNameInput" value="{{ file_name_inp }}">
+          <p class="comment2">Number of columns:</p>
+          <input type="text" id="NumberOfColumnsInput" value="{{ number_of_col }}">
+          <p class="comment2">Number of rows:</p>
+          <input type="text" id="NumberOfRowsInput" value="{{ number_of_rows }}">
+          <p class="comment2">Number of numerical values:</p>
+          <input type="text" id="NumberOfNumericalValues" value="{{ number_of_num_val }}">
+          <p class="comment2">Number of categorial values:</p>
+          <input type="text" id="NumberOfCategorialValues" value="{{ number_of_num_val }}">
+          <p class="comment2">Number of missing values:</p>
+          <input type="text" id="NumberOfMissingValues" value="{{ number_of_miss_val }}">
+          <button type="submit" class="fill-button">Fill the fields</button>
+      </form>
+    </div>
+
+    <div class="right-panel">
+      <form class="right-part" method="post">
+        <p class="comment2">Click the button to select a value for calculating the following data:</p>
+        <button type="submit" class="fill-button">Click</button>
+        <select name="selected_variable" id="variableSelect" class="custom-select">
+          {% for var in variable_list %}
+            <option value="{{ var }}">{{ var }}</option>
+          {% endfor %}
+        </select>
+        <p class="comment2">Mean value:</p>
+        <p class="comment2">Average value:</p>
+        <p class="comment2">Standard deviation:</p>
+        <input type="text" id="MeanVal" value="{{ mean_val }}">
+        <input type="text" id="AverageVal" value="{{ av_val }}">
+        <input type="text" id="StandardDwviation" value="{{ std_val }}">
+      </form>
+    </div>
+  </div>
+</div>
