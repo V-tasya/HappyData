@@ -6,7 +6,7 @@
 
   <div style="display: grid; grid-template-columns: repeat(2, 1fr);">
     <div class="left-panel">
-      <form action="{% url 'calculate:calculate_data' %}" class="left-part" method="post">
+      <form class="left-part" method="post">
           {% csrf_token %}
           <p class="comment2">File name:</p>
           <input type="text" id="fileNameInput" value="{{ file_name_inp }}">
