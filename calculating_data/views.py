@@ -1,19 +1,60 @@
-#from django.shortcuts import render,redirect
-#from uploading_and_processing_file.models import UploadedFile
+import pandas as pd
+from django.shortcuts import render
+from uploading_and_processing_file.models import UploadedFile
+from django.http import JsonResponse
 
-#def basic_info(request):
- # message = ''
-  #if request.method == 'POST':
-    #file_id = request.session.get('uploaded_file_id')
-    #if not file_id:
-     # message = "Nither of files have been uploaded."
-      #return redirect('analysis_page.html', {'mess1': message})
+def basic_data(request):
+  if request.method == "POST":
+    file_id = request.session.get('uploaded_file_id')
+    data = {}
 
-  #try:
-   # uploaded_file = UploadedFile.objects.get(id=file_id)
-    #file_name = uploaded_file.file.name
-  #except UploadedFile.DoesNotExist:
-   # message = "Probably the file was deleted."
-    #return redirect('analysis_page.html', {'mess1': message})
+    if not file_id:
+      comment = "Upload file."
+      data['mess1'] = comment
+      return JsonResponse(data)
+    
+    try:
+      up_file = UploadedFile.objects.get(id=file_id)
+      data_frame = pd.read_csv(up_file.file.path)
+      data['file_name_inp'] = up_file.file.name.split('/')[-1]
+      data['number_of_col'] = data_frame.shape[1]
+      data['number_of_rows'] = data_frame.shape[0]
+      data['number_of_num_val'] = data_frame.select_dtypes(include='number').shape[1]
+      data['number_of_cat_val'] = data_frame.select_dtypes(exclude='number').shape[1]
+      data['number_of_miss_val'] = int(data_frame.isnull().sum().sum())
+      data['mess1'] = 'Filled'
+    except Exception as error:
+      message = 'Ups, something goes wrong'
+      data['mess1'] = message
+      print(error)
+      return JsonResponse(data)
    
+    return JsonResponse(data)
   
+def get_numeric_columns(request):
+  if request.method == "POST":
+    file_id = request.session.get('uploaded_file_id')
+    data = {}
+
+    if not file_id:
+      comment = "Upload file."
+      data['mess2'] = comment
+      return JsonResponse(data)
+        
+    try:
+      up_file = UploadedFile.objects.get(id=file_id)
+      data_frame = pd.read_csv(up_file.file.path)
+      num_cols = data_frame.select_dtypes(include='number').columns.tolist()
+      data['numeric_columns'] = num_cols
+      return JsonResponse(data)
+        
+    except Exception as error:
+      message = 'Ups, something goes wrong'
+      data['mess2'] = message
+      print(error)
+      return JsonResponse(data)
+    
+  return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+def caluclate_data(request):
+  print('puska')
