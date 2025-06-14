@@ -37,10 +37,10 @@
           {% endfor %}
         </select>
         <p class="comment2">Mean value:</p>
-        <p class="comment2">Average value:</p>
+        <p class="comment2">Median value:</p>
         <p class="comment2">Standard deviation:</p>
         <input type="text" id="MeanVal" value="{{ mean_val }}" readonly>
-        <input type="text" id="AverageVal" value="{{ av_val }}" readonly>
+        <input type="text" id="MedianVal" value="{{ median_val }}" readonly>
         <input type="text" id="StandardDwviation" value="{{ std_val }}" readonly>
         <p class="comment2">Message:</p>
         <input type="text" id="Message2" value="{{ mess2 }}" readonly>
@@ -49,45 +49,71 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const selectBtn = document.querySelector(".right-part .fill-button");
-      const selectField = document.getElementById("variableSelect");
+document.addEventListener("DOMContentLoaded", function () {
+  const selectBtn = document.querySelector(".right-part .fill-button");
+  const selectField = document.getElementById("variableSelect");
 
-      selectBtn.addEventListener("click", function (e) {
-        e.preventDefault();
+  selectBtn.addEventListener("click", function (e) {
+    e.preventDefault();
 
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        fetch("/calculate/columns/", {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-            "X-CSRFToken": csrfToken,
-            "Content-Type": "application/json"
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.mess2) {
-            alert(data.mess2);
-            return;
-          }
+    fetch("/calculate/columns/", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-CSRFToken": csrfToken,
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.mess2) {
+        alert(data.mess2);
+        return;
+      }
 
-          selectField.innerHTML = "";
+      selectField.innerHTML = "";
 
-          if (Array.isArray(data.numeric_columns)) {
-            data.numeric_columns.forEach(col => {
-              const option = document.createElement("option");
-              option.value = col;
-              option.textContent = col;
-              selectField.appendChild(option);
-            });
-          }
-        })
-        .catch(err => {
-          document.getElementById("Message2").value =  err.message || err;
-        });
+      data.numeric_columns.forEach(col => {
+        const option = document.createElement("option");
+        option.value = col;
+        option.textContent = col;
+        selectField.appendChild(option);
+      });
+    })
+    .catch(err => {
+      document.getElementById("Message2").value = err.message || err;
+    });
+
+    selectField.addEventListener("change", function () {
+      const selectedColumn = selectField.value;
+
+      fetch("/calculate/data/", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ column: selectedColumn })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById("MeanVal").value = data.mean_val;
+          document.getElementById("MedianVal").value = data.median_val;
+          document.getElementById("StandardDwviation").value = data.std_val;
+          document.getElementById("Message2").value = data.mess2;
+        }
+      })
+      .catch(err => {
+        document.getElementById("Message2").value = err.message || err;
       });
     });
-  </script>
+  });
+});
+</script>
 </div>
