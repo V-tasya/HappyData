@@ -1,0 +1,74 @@
+{% load static %}
+<div class="section">
+  <h1 class="steps-text">Fourth Step</h1>
+
+  <form id="regression_form" class="select-choices" method="post">
+    {% csrf_token %}
+
+    <div class="in-line">
+      <p class="comment2">Enter the target column name:</p>
+      <input type="text" id="target_input" name="target_column" class="input-text" placeholder="Enter target column name">
+    </div>
+
+    <div class="bottons">
+      <button type="submit" id="predict_button" name="predict_button" class="generate-button">Generate</button>
+      <button type="button" id="download_metrics" class="submit-button">Download</button>
+    </div>
+
+    <div class="form-mae-rmse-row">
+      <div class="field-row">
+        <label for="mae" class="mae-button">MAE:</label>
+        <input type="text" id="mae" class="mae" value="{{ mae }}" readonly />
+      </div>
+      <div class="field-row">
+        <label for="rmse" class="mae-button">RMSE:</label>
+        <input type="text" id="rmse" class="rmse" value="{{ rmse }}" readonly />
+      </div>
+    </div>
+
+    <div id="regression-graph" class="diagram">
+      {% if regression_graph_base64 %}
+        <img id="regression-image" src="data:image/png;base64,{{ regression_graph_base64 }}" alt="Regression Graph">
+        <a id="download-link-regression" style="display: none;"></a>
+      {% endif %}
+    </div>
+  </form>
+
+  {% if regression_error %}
+    <p id="error-message" style="color:red;">Error: {{ regression_error }}</p>
+  {% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const downloadBtn = document.getElementById('download_metrics');
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const graphImg = document.getElementById('regression-image');
+      if (!graphImg) {
+        alert('You must generate the model first');
+        return;
+      }
+
+      const base64Data = graphImg.src.split(',')[1];
+      const downloadLink = document.getElementById('download-link-regression');
+      downloadLink.href = graphImg.src;
+      downloadLink.download = 'regression_' + new Date().toISOString().slice(0, 10) + '.png';
+      downloadLink.click();
+    });
+  }
+
+  const errorMessage = document.getElementById('error-message');
+  if (errorMessage) {
+    setTimeout(function() {
+      errorMessage.style.opacity = '0';
+      setTimeout(function() {
+        errorMessage.remove();
+      }, 500);
+    }, 9000);
+  }
+});
+</script>
