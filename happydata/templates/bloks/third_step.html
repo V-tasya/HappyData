@@ -2,45 +2,79 @@
 <div class="section">
   <h1 class="steps-text">Third Step</h1>
 
-  <form id="select_choice" class="select-choices" method="post">
+  <form id="select_choice" class="select-choices" method="post" action="{% url 'diagrams:graph' %}" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="in-line">
     <p class="comment2">Select a graf type:</p>
     <select id="select_plot" name="select_plot" class="custom-select">
-      <option id="heat_map" name="heat_map" value="opt1">heatmap</option>
-      <option id="box_plot" name="box_plot" value="opt2">boxplot</option>
-      <option id="violin_plot" name="violin_plot" value="opt3">violinplot</option>
-      <option id="hystogram" name="hystogram" value="opt4">hystogram</option>
-      <option id="scatter_plot" name="scatter_plot" value="opt5">scatterplot</option>
+      <option id="heat_map" name="heat_map" value="heatmap">heatmap</option>
+      <option id="box_plot" name="box_plot" value="boxplot">boxplot</option>
+      <option id="violin_plot" name="violin_plot" value="violinplot">violinplot</option>
+      <option id="hystogram" name="hystogram" value="hystogram">hystogram</option>
+      <option id="scatter_plot" name="scatter_plot" value="scatterplot">scatterplot</option>
     </select>
-  </form>
-
-  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px">
-    <div class="left">
-      <form id="left_form" name="left_form" class="left-form">  
-        {% csrf_token %}
-        <p class="comment2">For the selected vizualization type, 
-          you need to enter the names of the columns for which you want 
-          to get visualization: </p>
-          <input type="text" class="input-text" placeholder="Enter the 1st value">
-          <input type="text" class="input-text" placeholder="Enter the 2nd value">
-      </form>
     </div>
-
-    <div class="right">
-      <p></p>
+    <div class="in-line">
+      <p class="comment2">Enter the column names:</p>
+      <input type="text" id="FirstValue" name="col1" class="input-text" placeholder="Enter the 1st value">
+      <input type="text" id="SecondValue" name="col2" class="input-text" placeholder="Enter the 2nd value">
     </div>
-  </div>
-
-  <form id="graph" name="graph" class="diagram">
-    {% csrf_token %}
-    <div class="chart-box">Graf1 1</div>
     <div class="bottons">
-      <button type="submit" id="generate_botton" class="generate-button">Generate</button>
-      <button type="submit" id="download" name="download" class="submit-button">Download</button>
+      <button type="submit" id="generate_button" name="generate_button" class="generate-button">Generate</button>
+      <button type="button" id="download" name="download" class="submit-button">Download</button>
+    </div>
+
+    <div id="graph" class="diagram">
+        {% if graph_image_base64 %}
+          <img id="graph-image" src="data:image/png;base64,{{ graph_image_base64 }}" alt="Graph">
+          <a id="download-link" style="display: none;"></a>
+        {% endif %}
     </div>
   </form>
+
+  {% if error_message %}
+    <p style="color:red;">Error: {{ error_message }}</p>
+  {% endif %}
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const downloadBtn = document.getElementById('download');
+    
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function(e) {
+      e.preventDefault(); 
+            
+      const graphImg = document.getElementById('graph-image');
+      if (!graphImg) {
+        alert('You must generate diagram first');
+        return;
+      }
+            
+      const base64Data = graphImg.src.split(',')[1];
+      const downloadLink = document.getElementById('download-link');
+      downloadLink.href = graphImg.src;
+      downloadLink.download = 'graph_' + new Date().toISOString().slice(0, 10) + '.png';
+      downloadLink.click();
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        setTimeout(function() {
+            errorMessage.style.opacity = '0';
+            setTimeout(function() {
+                errorMessage.remove();
+            }, 500); 
+        }, 9000); 
+    }
+});
+</script>
+
+
 
 
 

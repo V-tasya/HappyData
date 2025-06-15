@@ -1,1 +1,6 @@
+csv
+io
+base64
 pandas
+seaborn
+matplotlib
