@@ -1,12 +1,93 @@
-<!DOCTYPE HTML>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!--<title th:text="${title}"/>-->
-    <title th:text="'Main page'">Main</title>
+    <meta charset="UTF-8">
+    <title>Main page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
+
     {% include "bloks/header.html" %}
-    {% include "bloks/footer.html"%}
+
+    <main class="container py-4">
+        <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+            <div class="col-lg-6 px-0">
+                <h1 class="display-4 fst-italic">Hi! Nice to see you here</h1>
+                <p class="lead my-3">This project is dedicated to analyzing CSV files — a simple yet powerful tool designed to assist those who need to process and interpret data collected through research or observation.
+Whether you're working on a scientific study, conducting a survey, or organizing experimental results, this platform helps you turn raw numbers into meaningful insights.</p>
+                <p class="lead mb-0"><span class="text-body-emphasis fw-bold">We hope that this project will be useful to you :)</span></p>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis">Instruction</strong>
+                        <h3 class="mb-0">How to use the project</h3>
+                        <p class="card-text mb-auto">
+Step 0 - Go to the Analysis page
+                        </p>
+                        <p class="card-text mb-auto">
+Step 1 – Upload your CSV file
+To unlock the full functionality of the app, you must first upload a valid CSV file. Once the file passes validation, the other sections will become available.
+                        </p>
+                        <p class="card-text mb-auto">
+Step 2 – Basic Statistics
+In this section, you can view key summary statistics and descriptive measures for your data.
+                        </p>
+                        <p class="card-text mb-auto">
+Step 3 – Visualizations
+Generate insightful graphs and charts to explore patterns, trends, and distributions in your data. Visualizations can be downloaded for use in reports or presentations.
+                        </p>
+                        <p class="card-text mb-auto"></p>
+Step 4 – Predictive Modeling
+Use linear regression to build a model that predicts your target variable. 
+                        </p>
+                        <p class="card-text mb-auto">
+Once your file is uploaded, you can freely navigate between steps in any order — steps 2, 3, and 4 become independent after the file is loaded.
+Visualizations can be downloaded for use in reports or presentations.</p>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img src="{% static 'images/HD_logo.png' %}" width="200" height="250" alt="Wroclaw"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis">Visualizations</strong>
+                        <h3 class="mb-0"> Diagram types </h3>
+                        <p class="card-text mb-auto">
+Heatmap – This chart shows the correlation matrix between all numeric columns in your dataset. No column selection is required — it is automatically generated based on available numeric data.
+</p>
+
+<p class="card-text mb-auto">
+Boxplot – To build this chart, you need to select two columns: one with categorical values and one with numeric values. It visualizes the distribution, central tendency, and potential outliers within each category.
+</p>
+
+<p class="card-text mb-auto">
+Violin Plot – Similar to the boxplot, this chart also requires one categorical and one numeric column. It combines a boxplot and a density plot, providing a richer view of the data distribution.
+</p>
+
+<p class="card-text mb-auto">
+Histogram – This visualization displays the frequency distribution of a single numeric column. It helps identify the shape of the data and detect skewness or patterns.
+</p>
+
+<p class="card-text mb-auto">
+Scatter Plot – Requires two numeric columns. This chart is used to explore relationships or correlations between two continuous variables.
+</p>
+</div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img src="{% static 'images/HD_logo.png' %}" width="200" height="250" alt="Brest"/>
+                    </div>
+                </div>
+            </div>     
+    </main>
+
+    {% include "bloks/footer.html" %}
+
 </body>
 </html>
