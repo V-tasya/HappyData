@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'interface',
     'uploading_and_processing_file',
-    'calculating_data'
+    'calculating_data',
+    'visualization',
+    'linear_regression'
 ]
 
 MIDDLEWARE = [

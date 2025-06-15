@@ -2,7 +2,7 @@
 <div class="section">
   <h1 class="steps-text">Fourth Step</h1>
 
-  <form id="regression_form" class="select-choices" method="post">
+  <form id="regression_form" class="select-choices" method="post" action="{% url 'regression:line-reg' %}">
     {% csrf_token %}
 
     <div class="in-line">

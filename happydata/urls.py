@@ -24,6 +24,7 @@ urlpatterns = [
     path('upload/', include('uploading_and_processing_file.urls', namespace='upload')),
     path('calculate/', include('calculating_data.urls', namespace='calculate')),
     path('visualization/', include('visualization.urls', namespace='diagrams')),
+    path('linearregression/', include('linear_regression.urls', namespace='regression')),
     path('admin/', admin.site.urls)
 ]
 
